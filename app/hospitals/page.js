@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
+import BackButton from "@/components/BackButton";
 
 // Import Haversine formula for distance calculation
 const getDistance = (lat1, lon1, lat2, lon2) => {
@@ -95,6 +96,8 @@ export default function NearbyHospitals() {
   };
 
   return (
+        <div className="p-6">
+          <BackButton />
     <div className="min-h-screen flex flex-col items-center p-6 bg-gray-100 text-gray-900">
       <h1 className="text-3xl font-bold mb-4">🏥 Nearby Hospitals</h1>
 
@@ -142,6 +145,7 @@ export default function NearbyHospitals() {
           selectedHospital={selectedHospital} // Pass selected hospital to the map
         />
       )}
+    </div>
     </div>
   );
 }

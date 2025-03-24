@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Bot, SendHorizonal } from 'lucide-react';
+import BackButton from "@/components/BackButton";
 
 export default function UploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -61,6 +62,8 @@ export default function UploadPage() {
   };
 
   return (
+            <div className="p-6">
+              <BackButton />
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">
         Eye Disease Prediction
@@ -100,6 +103,7 @@ export default function UploadPage() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import BackButton from "@/components/BackButton";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
@@ -27,6 +28,8 @@ export default function ProfilePage() {
   }, []);
 
   return (
+            <div className="p-6">
+              <BackButton />
     <div
       className={`min-h-screen flex flex-col items-center px-6 py-10 transition-all ${
         darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
@@ -115,6 +118,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </motion.div>
+    </div>
     </div>
   );
 }
