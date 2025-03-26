@@ -1,12 +1,21 @@
+from fastapi import APIRouter, HTTPException
+from pydantic import BaseModel
 import os
 import aisuite as ai
 
+router = APIRouter()
+
+# Define a Pydantic model for the request body
+class MessageRequest(BaseModel):
+    message: str
+
+# Environment setup
 os.environ['GROQ_API_KEY'] = "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"
 
 client = ai.Client()
 
-
-CAREAI_sys_message = """You are CARE, a chatbot integrated into the Comprehensive AI Retinal Expert application. Your purpose is to assist users by providing reliable information, guidance, and tips related to retinal diseases and overall eye care. Always adhere to the following rules
+CAREAI_sys_message = """
+You are CARE Bot, a chatbot integrated into the Comprehensive AI Retinal Expert application. Your purpose is to assist users by providing reliable information, guidance, and tips related to retinal diseases and overall eye care. Always adhere to the following rules
 
 1. **Scope**:
     
@@ -32,26 +41,21 @@ CAREAI_sys_message = """You are CARE, a chatbot integrated into the Comprehensiv
     - Encourage users to consult an ophthalmologist or healthcare provider for personalized treatment and care.
 6. **Politeness**:
     
-    - Always respond gracefully, even if the user expresses frustration or asks questions outside your scope. Introduce yourself as "Hello! I am CARE, your Comprehensive AI Retinal Expert chatbot. How can I assist you with your eye health today?"
+    - Always respond gracefully, even if the user expresses frustration or asks questions outside your scope. 
 
-Your role is to act as a knowledgeable, empathetic, and supportive virtual assistant, guiding users in understanding and managing their retinal health and improving overall eye care."""
+Your role is to act as a knowledgeable, empathetic, and supportive virtual assistant, guiding users in understanding and managing their retinal health and improving overall eye care.
+"""
 
-def ask(message, sys_message=CAREAI_sys_message,
-         model="groq:llama-3.2-3b-preview"):
-    # Initialize the AI client for accessing the language model
-    client = ai.Client()
-
-    # Construct the messages list for the chat
-    messages = [
-        {"role": "system", "content": sys_message},
-        {"role": "user", "content": message}
-    ]
-
-    # Send the messages to the model and get the response
-    response = client.chat.completions.create(model=model, messages=messages)
-
-    # Return the content of the model's response
-    return response.choices[0].message.content
-
-
-print(ask("hello"))
+@router.post("/ask")
+def ask(request: MessageRequest, sys_message: str = CAREAI_sys_message):
+    try:
+        # Construct the messages list for the chat
+        messages = [
+            {"role": "system", "content": sys_message},
+            {"role": "user", "content": request.message}
+        ]
+        # Call the AI suite API
+        response = client.chat.completions.create(model="groq:llama-3.3-70b-versatile", messages=messages)
+        return {"response": response.choices[0].message.content}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
