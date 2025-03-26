@@ -9,7 +9,7 @@ export default function RootLayout({ children }) { // Removed TypeScript syntax
   return (
     <html lang="en">
       <head>
-        <title>My App</title>
+        <title>CARE</title>
       </head>
       <body className="bg-gray-100 text-gray-900">
         <SessionProvider>{children}</SessionProvider>

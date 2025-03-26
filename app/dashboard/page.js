@@ -63,13 +63,14 @@ export default function DashboardPage() {
           </h1>
         </div>
 
-        {/* Entry Points (Profile, Test, Hospitals, Insights) */}
+        {/* Entry Points (Profile, Test, Hospitals, Insights, ChatBot) */}
         <div className="grid grid-cols-2 gap-6">
           {[
             { src: "/profile.svg", label: "Profile", path: "/profile" },
             { src: "/test.svg", label: "Eye Test", path: "/upload" },
             { src: "/hospital.svg", label: "Nearby Hospitals", path: "/hospitals" },
             { src: "/insight.svg", label: "Health Insights", path: "/health-insights" },
+            { src: "/chatbot.svg", label: "ChatBot", path: "/chatbot" }, // New ChatBot entry
           ].map((item, index) => (
             <div
               key={index}
