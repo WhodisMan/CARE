@@ -8,7 +8,8 @@ export default function UploadPage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [prediction, setPrediction] = useState(null);
-  const [confidence, setConfidence] = useState(null); // New state for confidence
+  const [confidence, setConfidence] = useState(null);
+  const [shapImageUrl, setShapImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleFileChange = (event) => {
@@ -17,7 +18,8 @@ export default function UploadPage() {
       setSelectedFile(file);
       setPreviewUrl(URL.createObjectURL(file));
       setPrediction(null);
-      setConfidence(null); // Reset confidence when new file is selected
+      setConfidence(null);
+      setShapImageUrl(null);
     }
   };
 
@@ -40,15 +42,16 @@ export default function UploadPage() {
       const data = await response.json();
       if (response.ok) {
         setPrediction(data.prediction);
-        setConfidence(data.confidence); // Store confidence value
+        setConfidence(data.confidence);
 
-        // Store the prediction and confidence in local storage
         const testResult = {
           prediction: data.prediction,
           confidence: data.confidence,
           date: new Date().toISOString(),
         };
         localStorage.setItem('latestTestResult', JSON.stringify(testResult));
+
+        setShapImageUrl('http://localhost:8000/api/shap-image');
       } else {
         alert(`Error: ${data.error}`);
       }
@@ -102,6 +105,17 @@ export default function UploadPage() {
               <p className="text-lg text-green-600 font-semibold">
                 Confidence: {confidence}
               </p>
+            </div>
+          )}
+
+          {shapImageUrl && (
+            <div className="mt-4 p-4 bg-gray-200 rounded-lg shadow">
+              <h2 className="text-xl font-semibold">SHAP Analysis:</h2>
+              <img
+                src={shapImageUrl}
+                alt="SHAP Analysis"
+                className="w-full h-auto rounded-lg shadow-md"
+              />
             </div>
           )}
         </div>
