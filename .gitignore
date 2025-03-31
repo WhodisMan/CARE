@@ -58,3 +58,4 @@ node_modules/
 backend/venv/Lib/site-packages/tensorflow/
 backend/venv/Lib/site-packages/cv2/
 backend/venv/Lib/site-packages/numpy.libs/
+backend/models/vgg16final.pt
